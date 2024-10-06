@@ -28,7 +28,7 @@ export default function Quiz() {
             if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
                 setAnswerState('correct');
             } else {
-                selectedAnswer('wrong');
+                setAnswerState('wrong');
             }
 
             // Nested timeout, to show the user if their answer is correct or wrong before moving onto next question
