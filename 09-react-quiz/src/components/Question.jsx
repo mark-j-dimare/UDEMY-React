@@ -33,7 +33,7 @@ export default function Question({
 
     let answerState = '';
 
-    if (answerState.selectedAnswer && answer.isCorrect !== null) {
+    if (answer.selectedAnswer && answer.isCorrect !== null) {
         answerState = answer.isCorrect ? 'correct' : 'wrong';
     } else if (answerState.selectedAnswer) {
         answerState = 'answered';
