@@ -34,6 +34,7 @@ const Counter = memo(function Counter({ initialCount }) {
   );
 
   // Limit use of useEffect, requires component to execute function again
+  // Re-import useEffect to test
 
   // useEffect(() => {
   //   setCounterChanges([{
