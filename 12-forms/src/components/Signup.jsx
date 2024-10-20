@@ -14,6 +14,9 @@ export default function Signup() {
         const acquisitionChannel = fd.getAll('acquisition');
         data.acquisition = acquisitionChannel;
 
+        // if you wanted the fields to clear on submit
+        //event.target.reset();
+
         console.log(data);
     }
     return (
