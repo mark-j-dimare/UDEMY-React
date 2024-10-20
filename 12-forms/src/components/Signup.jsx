@@ -1,6 +1,23 @@
 export default function Signup() {
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        // provided by the browser, all inputs must have name= prop
+        const fd = new FormData(event.target);
+
+        // provided by the browser, built in Object method
+        const data = Object.fromEntries(fd.entries());
+
+        // for inputs that have the same name= prop (in this example, checkboxes in a group)
+        // group them all and then merge them into the Object method (in this example, data)
+        const acquisitionChannel = fd.getAll('acquisition');
+        data.acquisition = acquisitionChannel;
+
+        console.log(data);
+    }
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <h2>Welcome on board!</h2>
             <p>We just need a little bit of data from you to get you started 🚀</p>
 
