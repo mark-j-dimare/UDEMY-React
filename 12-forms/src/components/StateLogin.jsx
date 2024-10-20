@@ -8,8 +8,17 @@ export default function Login() {
     password: ''
   });
 
+  // validation on lost focus state
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false
+  })
+
   // validation on every keystroke
-  const emailIsInvalid = enteredValues.email !== '' && !enteredValues.email.includes('@');
+  //const emailIsInvalid = enteredValues.email !== '' && !enteredValues.email.includes('@');
+
+  // validation on lost focus state
+  const emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -29,7 +38,19 @@ export default function Login() {
     setEnteredValues(prevValues => ({
       ...prevValues,
       [identifier]: value,
-    }))
+    }));
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: false,
+    }));
+  }
+
+  // validation on lost focus function
+  function handleInputBlur(identifier) {
+    setDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: true,
+    }));
   }
 
   return (
@@ -43,6 +64,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur('email')}
             onChange={(event) => handleInputChange('email', event.target.value)}
             value={enteredValues.email}
           />
