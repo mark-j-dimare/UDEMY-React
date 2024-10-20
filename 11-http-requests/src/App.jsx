@@ -4,6 +4,7 @@ import Places from './components/Places.jsx';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
+import ErrorPage from './components/Error.jsx';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
 import { updateUserPlaces } from './http.js';
 
@@ -50,8 +51,19 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
 
+    try {
+      await updateUserPlaces(
+        userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+      );
+    } catch (error) {
+      setUserPlaces(userPlaces);
+      setErrorUpdatingPlaces({
+        message: error.message || 'Failed to delete place.',
+      });
+    }
+
     setModalIsOpen(false);
-  }, []);
+  }, [userPlaces]);
 
   function handleError() {
     setErrorUpdatingPlaces(null);
@@ -61,7 +73,7 @@ function App() {
     <>
       <Modal open={errorUpdatingPlaces} onClose={handleError}>
         {errorUpdatingPlaces && (
-          <Error
+          <ErrorPage
             title="An error occured!"
             message={errorUpdatingPlaces.message}
             onConfirm={handleError}
