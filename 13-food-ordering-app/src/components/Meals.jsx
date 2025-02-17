@@ -9,7 +9,7 @@ export default function Meals() {
         data: loadedMeals,
         isLoading,
         error
-    } = useHttp('http://locahost:3000/meals', requestConfig, []); // url, config, initialData
+    } = useHttp('http://localhost:3000/meals', requestConfig, []); // url, config, initialData
 
     console.log(loadedMeals);
 
