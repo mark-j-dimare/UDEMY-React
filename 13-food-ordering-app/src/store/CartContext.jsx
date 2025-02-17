@@ -91,7 +91,6 @@ export function CartContextProvider({ children }) {
     function clearCart() {
         dispatchCartAction({
             type: 'CLEAR_CART',
-            item: [],
         })
     }
 

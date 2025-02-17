@@ -12,7 +12,7 @@ const requestConfig = {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-    }
+    },
 }
 
 export default function Checkout() {
@@ -23,8 +23,9 @@ export default function Checkout() {
         data,
         isLoading,
         error,
-        sendRequest
-    } = useHttp('http://localhost:3000/orders', requestConfig, []);
+        sendRequest,
+        clearData
+    } = useHttp('http://localhost:3000/orders', requestConfig);
 
     const cartTotal = cartCtx.items.reduce((totalPrice, item) => {
         return totalPrice + item.quantity * item.price;
@@ -37,6 +38,7 @@ export default function Checkout() {
     function handleFinish() {
         userProgressCtx.hideCheckout();
         cartCtx.clearCart();
+        clearData();
     }
 
     function handleSubmit(event) {
