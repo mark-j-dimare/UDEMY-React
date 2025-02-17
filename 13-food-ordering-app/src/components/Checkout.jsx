@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useActionState } from "react"
 import Modal from "./UI/Modal.jsx"
 import Input from "./UI/Input.jsx";
 import Button from "./UI/Button.jsx";
@@ -21,7 +21,6 @@ export default function Checkout() {
 
     const {
         data,
-        isLoading,
         error,
         sendRequest,
         clearData
@@ -41,7 +40,7 @@ export default function Checkout() {
         clearData();
     }
 
-    async function checkoutAction(fd) {
+    async function checkoutAction(prevState, fd) {
         const customerData = Object.fromEntries(fd.entries()); // { email: test@example.com }
 
         await sendRequest(JSON.stringify({
@@ -52,6 +51,8 @@ export default function Checkout() {
         }));
     }
 
+    const [formState, formAction, pending] = useActionState(checkoutAction, null);
+
     let actions = (
         <>
             <Button type="button" onClick={handleClose} textOnly>Close</Button>
@@ -59,7 +60,7 @@ export default function Checkout() {
         </>
     )
 
-    if (isLoading) {
+    if (pending) {
         actions = (
             <span>Sending order data...</span>
         )
@@ -80,7 +81,7 @@ export default function Checkout() {
 
     return (
         <Modal onClose={handleClose} open={userProgressCtx.progress === 'checkout'}>
-            <form action={checkoutAction}>
+            <form action={formAction}>
                 <h2>Checkout</h2>
                 <p>Total Ammount: {currencyFormatter.format(cartTotal)}</p>
                 <Input label="Full Name" id="name" type="text" required />
